@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>창신쌍용2단지 | 매물 & 실거래</title>
+<style>
+  :root{
+    --bg:#f4f6fb;
+    --card:#ffffff;
+    --text:#141821;
+    --sub:#6f7785;
+    --line:#e9edf5;
+    --primary:#3b82f6;
+    --primary2:#1d4ed8;
+    --accent:#0f172a;
+    --green:#10b981;
+    --orange:#f59e0b;
+    --red:#ef4444;
+    --shadow:0 10px 30px rgba(31,41,55,.08);
+    --radius:22px;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",sans-serif;
+    background:linear-gradient(180deg,#eef3ff 0%, #f5f7fb 28%, #f6f7fb 100%);
+    color:var(--text);
+  }
+  .app{
+    max-width:430px;
+    margin:0 auto;
+    min-height:100vh;
+    padding:18px 14px 32px;
+  }
+  .topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:14px;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .brand-icon{
+    width:40px;height:40px;border-radius:14px;
+    background:linear-gradient(135deg,#2563eb,#60a5fa);
+    color:white;display:flex;align-items:center;justify-content:center;
+    font-size:20px; box-shadow:var(--shadow);
+  }
+  .brand h1{
+    margin:0;font-size:16px;font-weight:900;letter-spacing:-0.3px;
+  }
+  .brand p{
+    margin:2px 0 0;font-size:11px;color:var(--sub);
+  }
+  .hero{
+    background:linear-gradient(135deg,#111827 0%, #1f2937 55%, #2b5ed7 100%);
+    color:#fff;
+    border-radius:28px;
+    padding:20px 18px 18px;
+    box-shadow:0 16px 40px rgba(31,41,55,.18);
+    position:relative;
+    overflow:hidden;
+  }
+  .hero:before{
+    content:"";
+    position:absolute;right:-30px;top:-30px;width:140px;height:140px;border-radius:50%;
+    background:rgba(255,255,255,.08);
+  }
+  .hero:after{
+    content:"";
+    position:absolute;right:40px;bottom:-36px;width:120px;height:120px;border-radius:50%;
+    background:rgba(255,255,255,.06);
+  }
+  .hero .mini{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:7px 10px;border-radius:999px;
+    background:rgba(255,255,255,.12);font-size:11px;
+    margin-bottom:12px;
+  }
+  .hero h2{
+    margin:0 0 8px;font-size:22px;line-height:1.2;letter-spacing:-0.5px;
+  }
+  .hero p{
+    margin:0;color:#dbe5ff;font-size:12px;line-height:1.55;
+    max-width:290px;
+  }
+  .hero-meta{
+    display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;
+  }
+  .chip{
+    background:rgba(255,255,255,.12);
+    color:#fff;font-size:10px;padding:7px 10px;border-radius:999px;
+    backdrop-filter:blur(6px);
+  }
+  .seg{
+    margin:16px 0 12px;
+    background:#e9eef9;
+    padding:5px;
+    border-radius:18px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:5px;
+  }
+  .seg button{
+    border:0;background:transparent;padding:12px 10px;border-radius:14px;
+    font-size:14px;font-weight:800;color:#60708a;cursor:pointer;
+  }
+  .seg button.active{
+    background:#fff;color:#101828;box-shadow:0 6px 16px rgba(17,24,39,.08);
+  }
+  .panel{display:none}
+  .panel.active{display:block}
+  .summary-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;
+  }
+  .stat{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:20px;padding:14px 10px;text-align:center;
+    box-shadow:var(--shadow);
+  }
+  .stat .label{font-size:10px;color:var(--sub);margin-bottom:6px}
+  .stat .value{font-weight:900;font-size:16px;letter-spacing:-0.4px}
+  .section-title{
+    display:flex;align-items:center;justify-content:space-between;
+    margin:16px 2px 10px;
+  }
+  .section-title h3{
+    margin:0;font-size:16px;font-weight:900;letter-spacing:-0.3px;
+  }
+  .section-title span{font-size:12px;color:var(--sub)}
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:24px;
+    box-shadow:var(--shadow);
+    margin-bottom:12px;
+    overflow:hidden;
+  }
+  .listing-btn{
+    width:100%;border:0;background:transparent;text-align:left;
+    padding:16px;cursor:pointer;color:inherit;
+  }
+  .topline{
+    display:flex;align-items:center;justify-content:space-between;gap:8px;
+  }
+  .price-wrap{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .price{
+    font-size:21px;font-weight:900;letter-spacing:-0.6px;
+  }
+  .pill{
+    font-size:10px;font-weight:800;padding:6px 9px;border-radius:999px;
+    background:#eff6ff;color:#1d4ed8;
+  }
+  .subline{
+    color:var(--sub);font-size:12px;margin-top:6px;display:flex;gap:10px;flex-wrap:wrap;
+  }
+  .desc{
+    margin-top:9px;font-size:12px;line-height:1.5;color:#2d3748;font-weight:600;
+  }
+  .movein{display:none;}
+  .movein-inline{
+    display:inline-block;
+    margin-left:8px;
+    padding:3px 8px;
+    border-radius:999px;
+    background:#eff6ff;
+    color:#1d4ed8;
+    border:1px solid #bfdbfe;
+    font-size:10px;
+    font-weight:900;
+    vertical-align:middle;
+    white-space:nowrap;
+  }
+  .arrow{
+    width:34px;height:34px;border-radius:12px;background:#f3f6fb;color:#667085;
+    display:flex;align-items:center;justify-content:center;font-size:18px;flex:0 0 auto;
+  }
+  .detail{
+    display:none;padding:0 16px 16px;border-top:1px solid var(--line);
+    background:linear-gradient(180deg,#fff 0%, #fbfcff 100%);
+  }
+  .detail.open{display:block}
+  .detail-grid{
+    display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px;
+  }
+  .info{
+    background:#f6f8fc;border-radius:16px;padding:12px 12px 11px;
+  }
+  .info .k{font-size:11px;color:var(--sub);margin-bottom:4px}
+  .info .v{font-size:13px;font-weight:800;line-height:1.35}
+  .memo{
+    margin-top:12px;background:#fff7ed;color:#9a3412;border:1px solid #fed7aa;
+    padding:12px;border-radius:16px;font-size:11px;line-height:1.55;
+  }
+  .tx-card{
+    background:#fff;border:1px solid var(--line);box-shadow:var(--shadow);
+    border-radius:24px;overflow:hidden;
+  }
+  .tx-head,.tx-row{
+    display:grid;grid-template-columns:1.05fr .75fr 1fr;gap:8px;
+    padding:11px 14px;align-items:center;
+  }
+  .tx-head{
+    background:#f4f7fb;font-size:11px;font-weight:800;color:#667085;
+  }
+  .tx-row{border-top:1px solid var(--line);font-size:13px}
+  .tx-row .amt{text-align:right;font-weight:900}
+  .tag{
+    display:inline-block;font-size:10px;padding:4px 7px;border-radius:999px;
+    background:#fff1f2;color:#be123c;font-weight:800;margin-left:6px;
+  }
+  .insight{
+    margin-top:12px;
+    background:linear-gradient(135deg,#eff6ff,#ffffff);
+    border:1px solid #dbeafe;
+    border-radius:22px;padding:16px;box-shadow:var(--shadow);
+  }
+  .insight h4{margin:0 0 7px;font-size:14px;font-weight:900}
+  .insight p{margin:0;color:#334155;font-size:12px;line-height:1.6}
+  .compare{
+    margin-top:16px;background:#fff;border:1px solid var(--line);border-radius:24px;
+    box-shadow:var(--shadow);padding:16px;
+  }
+  .compare h4{margin:0 0 12px;font-size:15px}
+  .compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .box{background:#f7f9fc;border-radius:18px;padding:14px}
+  .box .t{font-size:12px;color:#475467;font-weight:800;margin-bottom:8px}
+  .box .big{font-size:20px;font-weight:900}
+  .box ul{margin:10px 0 0;padding-left:16px;color:#475467;font-size:11px;line-height:1.55}
+  .footer{
+    margin-top:18px;font-size:10px;color:#8a94a6;line-height:1.6;text-align:center;
+    padding-bottom:20px;
+  }
+
+  .article-link{
+    color:#2563eb;
+    text-decoration:none;
+    font-weight:900;
+    border-bottom:1px solid #93c5fd;
+  }
+  .article-link:hover{color:#1d4ed8}
+
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="topbar">
+    <div class="brand">
+      <div class="brand-icon">🏢</div>
+      <div>
+        <h1>창신쌍용2단지</h1>
+        <p>매물 · 실거래 비교</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero">
+    <div class="mini">✨ 클릭하면 매물 상세가 열립니다</div>
+    <h2>창신쌍용2단지<br>평형별 매물 & 실거래</h2>
+    <p>손님이 보기 쉽게 현재 매물과 최근 실거래를 모바일 카드형으로 정리했습니다.</p>
+    <div class="hero-meta">
+      <span class="chip">서울 종로구 창신동 703</span>
+      <span class="chip">919세대</span>
+      <span class="chip">1993.10 준공</span>
+      <span class="chip">기준일 2026.08.18</span>
+    </div>
+  </div>
+
+  <div class="seg">
+    <button class="active" onclick="showPanel('p26', this)">26평형</button>
+    <button onclick="showPanel('p32', this)">32평형</button>
+  </div>
+
+  <section id="p26" class="panel active">
+    <div class="summary-grid">
+      <div class="stat"><div class="label">현재 최저호가</div><div class="value">8억 5,000</div></div>
+      <div class="stat"><div class="label">현재 최고호가</div><div class="value" style="color:var(--red)">9억 2,000</div></div>
+      <div class="stat"><div class="label">최근 실거래</div><div class="value" style="color:var(--primary2)">8억 2,000</div></div>
+    </div>
+
+    <div class="section-title">
+      <h3>현재 매물</h3><span>클릭해서 상세보기</span>
+    </div>
+
+    <div class="card">
+      <button class="listing-btn" onclick="toggleCard(this)">
+        <div class="topline">
+          <div style="min-width:0">
+            <div class="price-wrap"><div class="price">8억 5,000</div><span class="pill">최저호가</span></div>
+            <div class="subline"><span>203동</span><span>1/14층</span><span>남동향</span></div>
+            <div class="desc">샷시 포함 올리모델링 <span class="movein-inline">입주: 빠른입주 가능</span></div>
+          </div>
+          <div class="arrow">⌄</div>
+        </div>
+      </button>
+      <div class="detail">
+        <div class="detail-grid">
+          <div class="info"><div class="k">전용면적</div><div class="v">19.55평</div></div>
+          <div class="info"><div class="k">방 / 욕실</div><div class="v">2 / 1</div></div>
+          <div class="info"><div class="k">매물번호</div><div class="v"><a class="article-link" href="https://fin.land.naver.com/articles/2641102404" target="_blank" rel="noopener">2641102404</a></div></div>
+          <div class="info"><div class="k">확인매물</div><div class="v">2026.07.31</div></div>
+        </div>
+        <div class="memo">저층이지만 내부 수리가 반영된 매물입니다. 실거주 손님은 상태 대비 가격 비교용으로 좋습니다.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <button class="listing-btn" onclick="toggleCard(this)">
+        <div class="topline">
+          <div style="min-width:0">
+            <div class="price-wrap"><div class="price">8억 5,000</div></div>
+            <div class="subline"><span>203동</span><span>3/14층</span><span>남동향</span></div>
+            <div class="desc">기본상태 <span class="movein-inline">입주: 10월 협의</span></div>
+          </div>
+          <div class="arrow">⌄</div>
+        </div>
+      </button>
+      <div class="detail">
+        <div class="detail-grid">
+          <div class="info"><div class="k">전용면적</div><div class="v">19.55평</div></div>
+          <div class="info"><div class="k">방 / 욕실</div><div class="v">2 / 1</div></div>
+          <div class="info"><div class="k">매물번호</div><div class="v"><a class="article-link" href="https://fin.land.naver.com/articles/2641299729" target="_blank" rel="noopener">2641299729</a></div></div>
+          <div class="info"><div class="k">확인매물</div><div class="v">2026.08.01</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <button class="listing-btn" onclick="toggleCard(this)">
+        <div class="topline">
+          <div style="min-width:0">
+            <div class="price-wrap"><div class="price">8억 6,000</div><span class="pill" style="background:#ecfdf3;color:#047857">수리됨</span></div>
+            <div class="subline"><span>202동</span><span>10/14층</span><span>남서향</span></div>
+            <div class="desc">거실확장 · 샷시 포함 올수리 · 월세 승계 <span class="movein-inline">입주: 2028.08.26</span></div>
+          </div>
+          <div class="arrow">⌄</div>
+        </div>
+      </button>
+      <div class="detail">
+        <div class="detail-grid">
+          <div class="info"><div class="k">전용면적</div><div class="v">19.55평</div></div>
+          <div class="info"><div class="k">임대조건</div><div class="v">5,000 / 150</div></div>
+          <div class="info"><div class="k">입주가능일</div><div class="v">2028.08.26</div></div>
+          <div class="info"><div class="k">매물번호</div><div class="v"><a class="article-link" href="https://fin.land.naver.com/articles/2643536116" target="_blank" rel="noopener">2643536116</a></div></div>
+        </div>
+        <div class="memo">월세 안고 가는 매물입니다. 투자용/갭 성격으로 설명하면 좋고, 실입주 손님은 입주 시점 체크가 필요합니다.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <button class="listing-btn" onclick="toggleCard(this)">
+        <div class="topline">
+          <div style="min-width:0">
+            <div class="price-wrap"><div class="price">9억 2,000</div><span class="pill" style="background:#fef2f2;color:#b91c1c">고가권</span></div>
+            <div class="subline"><span>202동</span><span>4/14층</span><span>남동향</span></div>
+            <div class="desc">내부 올수리 <span class="movein-inline">입주: 2026년 11월 하순</span></div>
+          </div>
+          <div class="arrow">⌄</div>
+        </div>
+      </button>
+      <div class="detail">
+        <div class="detail-grid">
+          <div class="info"><div class="k">전용면적</div><div class="v">19.55평</div></div>
+          <div class="info"><div class="k">방 / 욕실</div><div class="v">2 / 1</div></div>
+          <div class="info"><div class="k">입주가능일</div><div class="v">2026년 11월 하순</div></div>
+          <div class="info"><div class="k">매물번호</div><div class="v"><a class="article-link" href="https://fin.land.naver.com/articles/2643459534" target="_blank" rel="noopener">2643459534</a></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">
+      <h3>2026년 실거래</h3><span>국토부 기준</span>
+    </div>
+    <div class="tx-card">
+      <div class="tx-head"><div>계약일</div><div>층</div><div style="text-align:right">실거래가</div></div>
+      <div class="tx-row"><div>7/13</div><div>9층</div><div class="amt">8억 2,000</div></div>
+      <div class="tx-row"><div>5/15</div><div>9층</div><div class="amt">8억 500</div></div>
+      <div class="tx-row"><div>4/24</div><div>5층</div><div class="amt">7억 2,800</div></div>
+      <div class="tx-row"><div>4/20</div><div>5층</div><div class="amt">7억 9,000</div></div>
+      <div class="tx-row"><div>3/31</div><div>14층</div><div class="amt">7억 4,200</div></div>
+      <div class="tx-row"><div>3/30</div><div>1층</div><div class="amt">6억 7,500</div></div>
+      <div class="tx-row"><div>3/21</div><div>5층</div><div class="amt">7억 3,000</div></div>
+      <div class="tx-row"><div>3/20</div><div>2층</div><div class="amt">7억 1,700</div></div>
+    </div>
+
+    <div class="insight">
+      <h4>한줄 포인트</h4>
+      <p>26평은 현재 최저호가가 8억 5,000만원이고, 최근 최고 실거래는 8억 2,000만원입니다. 즉 현재 시장에서는 실거래 대비 약 3,000만원 높은 가격선에서 매물이 나오고 있습니다.</p>
+    </div>
+  </section>
+
+  <section id="p32" class="panel">
+    <div class="summary-grid">
+      <div class="stat"><div class="label">현재 최저호가</div><div class="value">9억 2,000</div></div>
+      <div class="stat"><div class="label">현재 최고호가</div><div class="value" style="color:var(--red)">10억 5,000</div></div>
+      <div class="stat"><div class="label">최근 실거래</div><div class="value" style="color:var(--primary2)">9억 2,000</div></div>
+    </div>
+
+    <div class="section-title">
+      <h3>현재 매물</h3><span>클릭해서 상세보기</span>
+    </div>
+
+    <div class="card">
+      <button class="listing-btn" onclick="toggleCard(this)">
+        <div class="topline">
+          <div style="min-width:0">
+            <div class="price-wrap"><div class="price">9억 2,000</div><span class="pill">기준 매물</span></div>
+            <div class="subline"><span>204동</span><span>1/14층</span><span>남동향</span></div>
+            <div class="desc">내부 수리됨 <span class="movein-inline">입주: 2026년 11월 하순 협의</span></div>
+          </div>
+          <div class="arrow">⌄</div>
+        </div>
+      </button>
+      <div class="detail">
+        <div class="detail-grid">
+          <div class="info"><div class="k">전용면적</div><div class="v">24.16평</div></div>
+          <div class="info"><div class="k">방 / 욕실</div><div class="v">3 / 1</div></div>
+          <div class="info"><div class="k">매물번호</div><div class="v"><a class="article-link" href="https://fin.land.naver.com/articles/2644204691" target="_blank" rel="noopener">2644204691</a></div></div>
+          <div class="info"><div class="k">확인매물</div><div class="v">2026.08.18</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <button class="listing-btn" onclick="toggleCard(this)">
+        <div class="topline">
+          <div style="min-width:0">
+            <div class="price-wrap"><div class="price">9억 2,000</div></div>
+            <div class="subline"><span>207동</span><span>2/15층</span><span>남서향</span></div>
+            <div class="desc">기본상태 깨끗 <span class="movein-inline">입주: 즉시입주</span></div>
+          </div>
+          <div class="arrow">⌄</div>
+        </div>
+      </button>
+      <div class="detail">
+        <div class="detail-grid">
+          <div class="info"><div class="k">전용면적</div><div class="v">24.16평</div></div>
+          <div class="info"><div class="k">방 / 욕실</div><div class="v">3 / 1</div></div>
+          <div class="info"><div class="k">매물번호</div><div class="v"><a class="article-link" href="https://fin.land.naver.com/articles/2641867779" target="_blank" rel="noopener">2641867779</a></div></div>
+          <div class="info"><div class="k">확인매물</div><div class="v">2026.08.05</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <button class="listing-btn" onclick="toggleCard(this)">
+        <div class="topline">
+          <div style="min-width:0">
+            <div class="price-wrap"><div class="price">9억 8,000</div><span class="pill" style="background:#eff6ff;color:#1d4ed8">전망</span></div>
+            <div class="subline"><span>207동</span><span>12/15층</span><span>남동향</span></div>
+            <div class="desc">전망 · 채광 풍부 · 샷시 교체 <span class="movein-inline">입주: 2027년 2월 하순</span></div>
+          </div>
+          <div class="arrow">⌄</div>
+        </div>
+      </button>
+      <div class="detail">
+        <div class="detail-grid">
+          <div class="info"><div class="k">입주가능일</div><div class="v">2027년 2월 하순</div></div>
+          <div class="info"><div class="k">전용면적</div><div class="v">24.16평</div></div>
+          <div class="info"><div class="k">매물번호</div><div class="v"><a class="article-link" href="https://fin.land.naver.com/articles/2642510309" target="_blank" rel="noopener">2642510309</a></div></div>
+          <div class="info"><div class="k">확인매물</div><div class="v">2026.08.08</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <button class="listing-btn" onclick="toggleCard(this)">
+        <div class="topline">
+          <div style="min-width:0">
+            <div class="price-wrap"><div class="price">10억 5,000</div><span class="pill" style="background:#ecfdf3;color:#047857">올수리</span></div>
+            <div class="subline"><span>207동</span><span>12/15층</span><span>남서향</span></div>
+            <div class="desc">보일러·수도배관까지 교체 <span class="movein-inline">입주: 협의 가능</span></div>
+          </div>
+          <div class="arrow">⌄</div>
+        </div>
+      </button>
+      <div class="detail">
+        <div class="detail-grid">
+          <div class="info"><div class="k">전용면적</div><div class="v">24.16평</div></div>
+          <div class="info"><div class="k">방 / 욕실</div><div class="v">3 / 1</div></div>
+          <div class="info"><div class="k">매물번호</div><div class="v"><a class="article-link" href="https://fin.land.naver.com/articles/2640530739" target="_blank" rel="noopener">2640530739</a></div></div>
+          <div class="info"><div class="k">확인매물</div><div class="v">2026.07.28</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">
+      <h3>2026년 실거래</h3><span>국토부 기준</span>
+    </div>
+    <div class="tx-card">
+      <div class="tx-head"><div>계약일</div><div>층</div><div style="text-align:right">실거래가</div></div>
+      <div class="tx-row"><div>7/17</div><div>4층</div><div class="amt">9억 2,000</div></div>
+      <div class="tx-row"><div>5/30</div><div>14층</div><div class="amt">8억 5,800</div></div>
+      <div class="tx-row"><div>5/24</div><div>7층</div><div class="amt">8억 5,500</div></div>
+      <div class="tx-row"><div>5/18</div><div>14층</div><div class="amt">5억 1,100 <span class="tag">직거래</span></div></div>
+      <div class="tx-row"><div>4/16</div><div>8층</div><div class="amt">5억 2,000 <span class="tag">직거래</span></div></div>
+      <div class="tx-row"><div>2/9</div><div>3층</div><div class="amt">7억 5,000</div></div>
+      <div class="tx-row"><div>1/30</div><div>8층</div><div class="amt">7억 7,000</div></div>
+      <div class="tx-row"><div>1/22</div><div>5층</div><div class="amt">7억 1,900</div></div>
+    </div>
+
+    <div class="insight">
+      <h4>한줄 포인트</h4>
+      <p>32평은 현재 최저호가 9억 2,000만원이 최근 일반 실거래 9억 2,000만원과 같습니다. 손님 입장에서는 비교 기준이 가장 명확한 평형입니다.</p>
+    </div>
+  </section>
+
+  <div class="compare">
+    <h4>빠른 비교</h4>
+    <div class="compare-grid">
+      <div class="box">
+        <div class="t">26평형</div>
+        <div class="big">8.5억~9.2억</div>
+        <ul>
+          <li>방 2 / 욕실 1</li>
+          <li>최근 실거래 8.2억</li>
+          <li>실거래 대비 약 +3,000만</li>
+        </ul>
+      </div>
+      <div class="box">
+        <div class="t">32평형</div>
+        <div class="big">9.2억~10.5억</div>
+        <ul>
+          <li>방 3 / 욕실 1</li>
+          <li>최근 실거래 9.2억</li>
+          <li>최저호가와 실거래 동일</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    본 화면은 손님 상담용으로 재구성한 요약본입니다.<br>
+    실제 계약 전에는 매물 존속 여부, 가격 변경, 권리관계, 입주조건을 다시 확인하세요.
+  </div>
+</div>
+
+<script>
+function showPanel(id, btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.seg button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+function toggleCard(btn){
+  const detail = btn.nextElementSibling;
+  const arrow = btn.querySelector('.arrow');
+  detail.classList.toggle('open');
+  arrow.textContent = detail.classList.contains('open') ? '⌃' : '⌄';
+}
+</script>
+</body>
+</html>
